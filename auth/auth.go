@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/gotomgo/authboss"
+	"github.com/gotomgo/authboss/internal/response"
 	"golang.org/x/crypto/bcrypt"
-	"gopkg.in/authboss.v1"
-	"gopkg.in/authboss.v1/internal/response"
 )
 
 const (

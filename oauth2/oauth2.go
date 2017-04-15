@@ -12,9 +12,9 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/gotomgo/authboss"
+	"github.com/gotomgo/authboss/internal/response"
 	"golang.org/x/oauth2"
-	"gopkg.in/authboss.v1"
-	"gopkg.in/authboss.v1/internal/response"
 )
 
 var (

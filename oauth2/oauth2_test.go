@@ -10,12 +10,12 @@ import (
 	"testing"
 	"time"
 
+	"github.com/gotomgo/authboss"
+	"github.com/gotomgo/authboss/internal/mocks"
 	"golang.org/x/net/context"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/facebook"
 	"golang.org/x/oauth2/google"
-	"gopkg.in/authboss.v1"
-	"gopkg.in/authboss.v1/internal/mocks"
 )
 
 var testProviders = map[string]authboss.OAuth2Provider{
