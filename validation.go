@@ -66,24 +66,36 @@ func (f FieldError) Error() string {
 
 // Validate validates a request using the given ruleset.
 func Validate(r *http.Request, ruleset []Validator, confirmFields ...string) ErrorList {
+	return ValidateFields(func(arg1 string) string {
+		return r.FormValue(arg1)
+	}, ruleset, confirmFields)
+}
+
+// ValidateFieldsV is used to validate fields and has a variadic signature
+func ValidateFieldsV(getField func(string) string, ruleset []Validator, confirmFields ...string) ErrorList {
+	return ValidateFields(getField, ruleset, confirmFields)
+}
+
+// ValidateFields validates fields
+func ValidateFields(getField func(string) string, ruleset []Validator, confirmFields []string) ErrorList {
 	errList := make(ErrorList, 0)
 
 	for _, validator := range ruleset {
 		field := validator.Field()
 
-		val := r.FormValue(field)
+		val := getField(field)
 		if errs := validator.Errors(val); len(errs) > 0 {
 			errList = append(errList, errs...)
 		}
 	}
 
 	for i := 0; i < len(confirmFields)-1; i += 2 {
-		main := r.FormValue(confirmFields[i])
+		main := getField(confirmFields[i])
 		if len(main) == 0 {
 			continue
 		}
 
-		confirm := r.FormValue(confirmFields[i+1])
+		confirm := getField(confirmFields[i+1])
 		if len(confirm) == 0 || main != confirm {
 			errList = append(errList, FieldError{confirmFields[i+1], fmt.Errorf("Does not match %s", confirmFields[i])})
 		}
